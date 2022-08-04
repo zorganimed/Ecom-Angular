@@ -1,0 +1,71 @@
+<div *ngIf="currentProduct">
+
+
+      <div class="panel panel-default heigthed" *ngIf="mode==0">
+        <div class="panel-heading">Fiche Produit : {{currentProduct.nom}}
+        <span class="glyphicon glyphicon-edit pull-right btn" (click)="OnEditProduct()"></span>
+        </div>
+        <div class="panel-body">
+          <div class="col-md-5">
+          <img class="img-thumbnail img-rounded btn"   [src]="this.catService.host+'/photoProduct/'+currentProduct.id+'?ts='+getTs()" />
+          <div *ngIf="this.authService.isAdmin()">
+            <button *ngIf="!editPhoto" (click)="onEditPhoto(currentProduct)">
+              <span class="glyphicon glyphicon-edit"></span>
+
+            </button>
+            <p *ngIf="editPhoto == true">
+              <input type="file" (change)="onSelectedFile($event)"/>
+
+              <button class="btn btn-success" (click)="uploadPhoto()">Upload</button>
+              {{progress}}
+            </p>
+          </div>
+
+
+          <div>
+      <span *ngIf="currentProduct.promotion">
+      <img src="assets/images/promo.png" class="img-thumbnail img-circle" height="30" width="40">
+      </span>
+            <span *ngIf="currentProduct.selected">
+      <img src="assets/images/favorite.png" class="img-thumbnail img-circle" height="30" width="40">
+      </span>
+            <span *ngIf="currentProduct.available">
+      <img src="assets/images/available.png" class="img-thumbnail img-circle" height="30" width="40">
+      </span>
+          </div>
+          <div>
+            <form #f="ngForm">
+              <label class="control-label">Quantité:</label>
+              <input type="number" name="quantity" ngModel style="width: 40px" [(ngModel)]="currentProduct.quantity">
+              <button>
+                <img src="assets/images/caddy.png" height="30" width="30">
+              </button>
+            </form>
+          </div>
+        </div>
+          <div class="col-md-7">
+            <div class="panel panel-default" style="...">
+              <div class="panel-body">
+                <label>Price : {{currentProduct.currentPrice|number:'0.00'}}</label>
+              </div>
+              <div class="panel-body">
+                <label>Description : {{currentProduct.description}}</label>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+  <div *ngIf="mode==1">
+    <form #f="ngForm" (ngSubmit)="onUpdateProduct(f.value)">
+      <div class="form-group">
+        <label class="control-label">Name:</label>
+        <input type="number" name="nom" ngModel style="width: 40px" [(ngModel)]="currentProduct.nom">
+
+      </div>
+    </form>
+
+  </div>
+</div>
